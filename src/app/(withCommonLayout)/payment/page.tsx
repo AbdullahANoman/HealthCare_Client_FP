@@ -62,7 +62,7 @@ const PaymentStatusPage = ({ searchParams }: PropTypes) => {
                )}
                {status !== 'success' && (
                   <Button size='small' variant='outlined'>
-                     <Link href='/doctors'>Bok Again</Link>
+                     <Link href='/doctors'>Book Again</Link>
                   </Button>
                )}
             </Stack>

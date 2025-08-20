@@ -1,161 +1,238 @@
-'use client';
-import { Box, Button, Container, Grid, Stack, Typography } from '@mui/material';
-import Image from 'next/image';
-import assets from '@/assets';
-import Link from 'next/link';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { userLogin } from '@/services/actions/userLogin';
-import { storeUserInfo } from '@/services/auth.services';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import PHForm from '@/components/Forms/PHForm';
-import PHInput from '@/components/Forms/PHInput';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+"use client"
 
-export const validationSchema = z.object({
-   email: z.string().email('Please enter a valid email address!'),
-   password: z.string().min(6, 'Must be at least 6 characters'),
-});
+import { useState } from "react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import {
+  Button,
+  TextField,
+  Card,
+  CardContent,
+  CardHeader,
+  Typography,
+  Alert,
+  Box,
+  IconButton,
+  InputAdornment,
+  CircularProgress,
+} from "@mui/material"
+import { Visibility, VisibilityOff, LocalHospital, Email, Lock } from "@mui/icons-material"
+import { z } from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import type { FieldValues } from "react-hook-form"
+import { userLogin } from "@/services/actions/userLogin"
+import { storeUserInfo } from "@/services/auth.services"
+import { toast } from "sonner"
 
-const LoginPage = () => {
-   const [error, setError] = useState('');
+const validationSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+})
 
-   const handleLogin = async (values: FieldValues) => {
-      // console.log(values);
-      try {
-         const res = await userLogin(values);
-         if (res?.data?.accessTokeLn) {
-            toast.success(res?.message);
-            storeUserInfo({ accessToken: res?.data?.accessToken });
-            // router.push("/dashboard");
-         } else {
-            setError(res.message);
-            // console.log(res);
-         }
-      } catch (err: any) {
-         console.error(err.message);
+type FormData = z.infer<typeof validationSchema>
+
+export default function LoginPage() {
+  const [error, setError] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(validationSchema),
+    defaultValues: {
+      email: "abdullahnoman4537@gmail.com",
+      password: "noman4131",
+    },
+  })
+
+  const onSubmit = async (values: FieldValues) => {
+    setIsLoading(true)
+    setError("")
+
+    try {
+      const res = await userLogin(values)
+      if (res?.data?.accessToken) {
+        toast.success(res?.message || "Login successful!")
+        storeUserInfo({ accessToken: res.data.accessToken })
+        router.push("/dashboard")
+      } else {
+        setError(res?.message || "Login failed. Please try again.")
       }
-   };
+    } catch (err: any) {
+      setError("An error occurred. Please try again.")
+      console.error(err.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
-   return (
-      <Container>
-         <Stack
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        p: 2,
+      }}
+    >
+      <Box sx={{ width: "100%", maxWidth: 400 }}>
+        <Card
+          sx={{
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+            border: "none",
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          <CardHeader
             sx={{
-               height: '100vh',
-               justifyContent: 'center',
-               alignItems: 'center',
+              textAlign: "center",
+              pb: 4,
+              pt: 4,
             }}
-         >
+          >
             <Box
-               sx={{
-                  maxWidth: 600,
-                  width: '100%',
-                  boxShadow: 1,
-                  borderRadius: 1,
-                  p: 4,
-                  textAlign: 'center',
-               }}
+              sx={{
+                mx: "auto",
+                width: 64,
+                height: 64,
+                backgroundColor: "#6366f1",
+                borderRadius: 3,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                mb: 2,
+              }}
             >
-               <Stack
-                  sx={{
-                     justifyContent: 'center',
-                     alignItems: 'center',
-                  }}
-               >
-                  <Box>
-                     <Image
-                        src={assets.svgs.logo}
-                        width={50}
-                        height={50}
-                        alt='logo'
-                     />
-                  </Box>
-                  <Box>
-                     <Typography variant='h6' fontWeight={600}>
-                        Login PH HealthCare
-                     </Typography>
-                  </Box>
-               </Stack>
-
-               {error && (
-                  <Box>
-                     <Typography
-                        sx={{
-                           backgroundColor: 'red',
-                           padding: '1px',
-                           borderRadius: '2px',
-                           color: 'white',
-                           marginTop: '5px',
-                        }}
-                     >
-                        {error}
-                     </Typography>
-                  </Box>
-               )}
-
-               <Box>
-                  <PHForm
-                     onSubmit={handleLogin}
-                     resolver={zodResolver(validationSchema)}
-                     defaultValues={{
-                        email: 'abdullahnoman4537@gmail.com',
-                        password: 'noman4131',
-                     }}
-                  >
-                     <Grid container spacing={2} my={1}>
-                        <Grid item md={6}>
-                           <PHInput
-                              name='email'
-                              label='Email'
-                              type='email'
-                              fullWidth={true}
-                           />
-                        </Grid>
-                        <Grid item md={6}>
-                           <PHInput
-                              name='password'
-                              label='Password'
-                              type='password'
-                              fullWidth={true}
-                           />
-                        </Grid>
-                     </Grid>
-
-                     <Link href={'/forgot-password'}>
-                        <Typography
-                           mb={1}
-                           textAlign='end'
-                           component='p'
-                           fontWeight={300}
-                           sx={{
-                              textDecoration: 'underline',
-                           }}
-                        >
-                           Forgot Password?
-                        </Typography>
-                     </Link>
-
-                     <Button
-                        sx={{
-                           margin: '10px 0px',
-                        }}
-                        fullWidth={true}
-                        type='submit'
-                     >
-                        Login
-                     </Button>
-                     <Typography component='p' fontWeight={300}>
-                        Don&apos;t have an account?{' '}
-                        <Link href='/register'>Create an account</Link>
-                     </Typography>
-                  </PHForm>
-               </Box>
+              <LocalHospital sx={{ fontSize: 32, color: "white" }} />
             </Box>
-         </Stack>
-      </Container>
-   );
-};
+            <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", mb: 1, fontFamily: "serif" }}>
+              Welcome to healthBridge
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Sign in to access your healthcare dashboard
+            </Typography>
+          </CardHeader>
 
-export default LoginPage;
+          <CardContent sx={{ px: 3, pb: 3 }}>
+            {error && (
+              <Alert severity="error" sx={{ mb: 3, backgroundColor: "#fef2f2", color: "#991b1b" }}>
+                {error}
+              </Alert>
+            )}
+
+            <Box
+              component="form"
+              onSubmit={handleSubmit(onSubmit)}
+              sx={{ display: "flex", flexDirection: "column", gap: 3 }}
+            >
+              <TextField
+                fullWidth
+                label="Email Address"
+                type="email"
+                placeholder="Enter your email"
+                error={!!errors.email}
+                helperText={errors.email?.message}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Email color="action" />
+                    </InputAdornment>
+                  ),
+                  sx: { height: 56 },
+                }}
+                {...register("email")}
+              />
+
+              <TextField
+                fullWidth
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                error={!!errors.password}
+                helperText={errors.password?.message}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Lock color="action" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  sx: { height: 56 },
+                }}
+                {...register("password")}
+              />
+
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <Link href="/forgot-password" style={{ textDecoration: "none" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "#6366f1", "&:hover": { color: "#4f46e5" }, fontWeight: 500 }}
+                  >
+                    Forgot password?
+                  </Typography>
+                </Link>
+              </Box>
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                disabled={isLoading}
+                sx={{
+                  height: 48,
+                  backgroundColor: "#6366f1",
+                  "&:hover": { backgroundColor: "#4f46e5" },
+                  fontWeight: 500,
+                  textTransform: "none",
+                  fontSize: "1rem",
+                  transition: "all 0.2s",
+                  // "&:hover": {
+                  //   backgroundColor: "#4f46e5",
+                  //   transform: "scale(1.02)",
+                  // },
+                }}
+                startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : null}
+              >
+                {isLoading ? "Signing in..." : "Sign In"}
+              </Button>
+            </Box>
+          </CardContent>
+
+          <Box sx={{ p: 3, pt: 0 }}>
+            <Typography variant="body2" color="text.secondary" align="center">
+              Do not have an account?{" "}
+              <Link href="/register" style={{ textDecoration: "none" }}>
+                <Typography
+                  component="span"
+                  sx={{ color: "#6366f1", "&:hover": { color: "#4f46e5" }, fontWeight: 500 }}
+                >
+                  Create account
+                </Typography>
+              </Link>
+            </Typography>
+          </Box>
+        </Card>
+
+        <Box sx={{ mt: 4, textAlign: "center" }}>
+          <Typography variant="caption" color="text.secondary">
+            Secure healthcare platform powered by healthBridge
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+  )
+}

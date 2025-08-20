@@ -105,6 +105,11 @@ export const drawerItems = (role: UserRole): DrawerItem[] => {
       case USER_ROLE.PATIENT:
          roleMenus.push(
             {
+               title: 'Dashboard',
+               path: `${role}`,
+               icon: BookOnlineIcon,
+            },
+            {
                title: 'Appointments',
                path: `${role}/appointments`,
                icon: BookOnlineIcon,

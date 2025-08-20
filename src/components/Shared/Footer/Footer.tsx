@@ -1,32 +1,67 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
-import Image from "next/image";
-import Link from "next/link";
-import facebookIcon from "@/assets/landing_page/facebook.png";
-import instagramIcon from "@/assets/landing_page/instagram.png";
-import twitterIcon from "@/assets/landing_page/twitter.png";
-import linkedIcon from "@/assets/landing_page/linkedin.png";
+import { Box, Container, Stack, Typography } from "@mui/material"
+import Link from "next/link"
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital"
+import FacebookIcon from "@mui/icons-material/Facebook"
+import TwitterIcon from "@mui/icons-material/Twitter"
+import LinkedInIcon from "@mui/icons-material/LinkedIn"
+import InstagramIcon from "@mui/icons-material/Instagram"
 
 const Footer = () => {
   return (
     <Box bgcolor="rgb(17, 26, 34)" py={5}>
       <Container>
-        <Stack direction="row" gap={4} justifyContent="center">
-          <Typography color="#fff" component={Link} href="/consultation">
+        <Stack direction="row" gap={4} justifyContent="center" flexWrap="wrap">
+          <Typography
+            color="#fff"
+            component={Link}
+            href="/consultation"
+            sx={{
+              textDecoration: "none",
+              "&:hover": { color: "#e3f2fd" },
+              transition: "color 0.2s",
+            }}
+          >
             Consultation
           </Typography>
-          <Typography color="#fff">Health Plans</Typography>
-          <Typography color="#fff">Medicine</Typography>
-          <Typography color="#fff">Diagnostics</Typography>
-          <Typography color="#fff">NGOs</Typography>
+          <Typography
+            color="#fff"
+            sx={{
+              cursor: "pointer",
+              "&:hover": { color: "#e3f2fd" },
+              transition: "color 0.2s",
+            }}
+          >
+            Health Plans
+          </Typography>
+          <Typography
+            color="#fff"
+            sx={{
+              cursor: "pointer",
+              "&:hover": { color: "#e3f2fd" },
+              transition: "color 0.2s",
+            }}
+          >
+            Medicine
+          </Typography>
+          <Typography
+            color="#fff"
+            sx={{
+              cursor: "pointer",
+              "&:hover": { color: "#e3f2fd" },
+              transition: "color 0.2s",
+            }}
+          >
+            Diagnostics
+          </Typography>
         </Stack>
 
         <Stack direction="row" gap={2} justifyContent="center" py={3}>
-          <Image src={facebookIcon} width={30} height={30} alt="facebook" />
-          <Image src={instagramIcon} width={30} height={30} alt="facebook" />
-          <Image src={twitterIcon} width={30} height={30} alt="facebook" />
-          <Image src={linkedIcon} width={30} height={30} alt="facebook" />
+          <FacebookIcon sx={{ color: "#fff", fontSize: 30, cursor: "pointer", "&:hover": { color: "#1976d2" } }} />
+          <InstagramIcon sx={{ color: "#fff", fontSize: 30, cursor: "pointer", "&:hover": { color: "#e91e63" } }} />
+          <TwitterIcon sx={{ color: "#fff", fontSize: 30, cursor: "pointer", "&:hover": { color: "#1da1f2" } }} />
+          <LinkedInIcon sx={{ color: "#fff", fontSize: 30, cursor: "pointer", "&:hover": { color: "#0077b5" } }} />
         </Stack>
-        {/* <div className="border-b-[1px] border-dashed"></div> */}
+
         <Box
           sx={{
             border: "1px dashed lightgray",
@@ -34,35 +69,42 @@ const Footer = () => {
         ></Box>
 
         <Stack
-          direction="row"
+          direction={{ xs: "column", md: "row" }}
           gap={2}
           justifyContent="space-between"
           alignItems="center"
           py={3}
+          textAlign={{ xs: "center", md: "left" }}
         >
           <Typography component="p" color="white">
-            &copy;2024 Ph HealthCare. All Rights Reserved.
+            &copy;2024 healthBridge. All Rights Reserved.
           </Typography>
           <Typography
-            variant="h4"
+            variant="h5"
             component={Link}
             href="/"
             fontWeight={600}
             color="white"
+            sx={{
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
           >
-            P
+            <LocalHospitalIcon />
+            health
             <Box component="span" color="primary.main">
-              H
-            </Box>{" "}
-            Health Care
+              Bridge
+            </Box>
           </Typography>
           <Typography component="p" color="white">
-            Privacy Policy! Terms & Conditions
+            Privacy Policy | Terms & Conditions
           </Typography>
         </Stack>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
