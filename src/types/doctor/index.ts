@@ -26,6 +26,12 @@ export interface DoctorSpecialty {
    specialties: any; // You may want to specify the structure of the specialties object if known
 }
 
+export interface Specialty {
+   title : string,
+   id:string,
+   icon:string
+}
+
 export interface IDoctor {
    id: string;
    name: string;

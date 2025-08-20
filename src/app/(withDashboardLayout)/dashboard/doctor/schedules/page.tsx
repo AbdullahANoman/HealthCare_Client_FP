@@ -43,7 +43,7 @@ const DoctorSchedulesPage = () => {
    console.log(schedules)
 
    useEffect(() => {
-      const updateData = schedules?.data?.map(
+      const updateData = schedules?.map(
          (schedule: ISchedule, index: number) => {
             console.log(schedule)
             return {

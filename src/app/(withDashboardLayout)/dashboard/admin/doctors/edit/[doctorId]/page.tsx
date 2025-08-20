@@ -54,7 +54,7 @@ const DoctorUpdatePage = ({ params }: TParams) => {
     registrationNumber: data?.registrationNumber || "",
     gender: data?.gender || "",
     experience: data?.experience || 0,
-    apointmentFee: data?.apointmentFee || 0,
+    appointmentFee: data?.appointmentFee || 0,
     qualification: data?.qualification || "",
     currentWorkingPlace: data?.currentWorkingPlace || "",
     designation: data?.designation || "",
@@ -133,7 +133,7 @@ const DoctorUpdatePage = ({ params }: TParams) => {
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <PHInput
-                name="apointmentFee"
+                name="appointmentFee"
                 type="number"
                 label="ApointmentFee"
                 fullWidth={true}

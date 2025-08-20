@@ -22,7 +22,7 @@ const Doctors = async ({ searchParams }: PropType) => {
 
    const { data } = await res.json();
 
-   // console.log(data);
+   console.log(data);
 
    return (
       <Container>
@@ -39,7 +39,7 @@ const Doctors = async ({ searchParams }: PropType) => {
                </Box>
             ))}
 
-            {data.length === 0 && (
+            {data?.length === 0 && (
                <Box>No Doctor Found With This Specialty</Box>
             )}
          </Box>
