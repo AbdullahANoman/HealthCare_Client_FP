@@ -1,9 +1,7 @@
-const AppointmentsPage = () => {
-  return (
-    <div>
-      <h1>Appointments Page</h1>
-    </div>
-  );
-};
+import React from 'react'
 
-export default AppointmentsPage;
+export default function AppointmentPage() {
+  return (
+    <div>AppointmentPage</div>
+  )
+}

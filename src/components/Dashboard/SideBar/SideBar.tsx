@@ -9,7 +9,7 @@ import { getUserInfo } from "@/services/auth.services"
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import SidebarItem from "./SidebarItem"
-
+import logo from '../../../../public/logo.png'
 const SideBar = () => {
   const [userRole, setUserRole] = useState("")
   const theme = useTheme()
@@ -57,15 +57,12 @@ const SideBar = () => {
             width: 48,
             height: 48,
             borderRadius: "12px",
-            background: "rgba(255,255,255,0.2)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backdropFilter: "blur(10px)",
-            border: "1px solid rgba(255,255,255,0.3)",
           }}
         >
-          <Image src="/medical-cross-icon.png" width={32} height={32} alt="healthBridge logo" />
+          <Image src={logo} width={48} height={48} alt="healthBridge logo" className="rounded-xl" />
         </Box>
         <Box>
           <Typography

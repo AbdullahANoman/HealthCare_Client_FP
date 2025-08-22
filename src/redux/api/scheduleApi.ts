@@ -20,7 +20,13 @@ export const scheduleApi = baseApi.injectEndpoints({
           params: arg,
         };
       },
-      transformResponse: (response: [], meta: IMeta) => {
+      transformResponse: (
+        response: {
+          meta: any;
+          data: any;
+        },
+        meta: IMeta
+      ) => {
         return {
           schedules: response,
           meta,
