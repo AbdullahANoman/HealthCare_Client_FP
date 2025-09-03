@@ -19,7 +19,6 @@ import SideBar from "../SideBar/SideBar"
 import { alpha, Avatar, Badge, Chip, Fade, Paper, Stack } from "@mui/material"
 
 import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 const drawerWidth = 280
 
 export default function DashboardDrawer({

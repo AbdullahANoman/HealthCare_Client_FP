@@ -4,7 +4,6 @@ import {
    Card,
    CardActions,
    CardContent,
-   CardMedia,
    Container,
    Grid,
    Typography,
@@ -15,7 +14,7 @@ import Link from 'next/link';
 
 const TopRatedDoctors = async () => {
    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/doctor`
+      'http://localhost:3000/api/v1/doctor'
    );
    const { data: doctors } = await res.json();
      console.log(doctors);
