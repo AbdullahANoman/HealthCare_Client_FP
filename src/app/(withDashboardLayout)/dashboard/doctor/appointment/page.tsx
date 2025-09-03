@@ -80,11 +80,11 @@ const PatientAppointmentsPage = () => {
       <Box>
          {!isLoading ? (
             <Box my={2}>
-               <DataGrid
+               {/* <DataGrid
                   rows={appointments ?? []}
                   columns={columns}
                   loading={isLoading}
-               />
+               /> */}
             </Box>
          ) : (
             <h1>Loading.....</h1>

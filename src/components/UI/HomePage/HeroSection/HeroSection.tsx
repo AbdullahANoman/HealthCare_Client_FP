@@ -3,6 +3,10 @@ import Image from "next/image";
 import assets from "@/assets";
 import doctor1 from "@/assets/images/doctor1.png";
 import doctor2 from "@/assets/images/doctor2.png";
+import doctor3 from "@/assets/images/doctor3.png";
+import stethoscope from '@/assets/images/Stetoscope.png'
+import arrow from '@/assets/svgs/arrow.svg'
+import grid from '@/assets/svgs/grid.svg'
 const HeroSection = () => {
   return (
     <Container
@@ -21,7 +25,7 @@ const HeroSection = () => {
             top: "-120px",
           }}
         >
-          <Image src={assets.svgs.grid} alt="doctor1" />
+          <Image src={grid} alt="doctor1" />
         </Box>
         <Typography variant="h2" component="h1" fontWeight={600}>
           Healthier Hearts
@@ -66,7 +70,7 @@ const HeroSection = () => {
             top: "-30px",
           }}
         >
-          <Image src={assets.svgs.arrow} width={100} height={100} alt="arrow" />
+          <Image src={arrow} width={100} height={100} alt="arrow" />
         </Box>
         <Box
           sx={{
@@ -99,7 +103,7 @@ const HeroSection = () => {
           }}
         >
           <Image
-            src={assets.images.doctor3}
+            src={doctor3}
             width={240}
             height={240}
             alt="doctor3"
@@ -114,7 +118,7 @@ const HeroSection = () => {
           }}
         >
           <Image
-            src={assets.images.stethoscope}
+            src={stethoscope}
             width={180}
             height={180}
             alt="doctor3"

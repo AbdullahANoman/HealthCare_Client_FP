@@ -15,8 +15,6 @@ import {
   Stack,
   Toolbar,
   Typography,
-  useMediaQuery,
-  useTheme,
   Avatar,
   Divider,
 } from "@mui/material";
@@ -29,7 +27,8 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
-
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 const Navbar = () => {
   const userInfo = useUserInfo();
 

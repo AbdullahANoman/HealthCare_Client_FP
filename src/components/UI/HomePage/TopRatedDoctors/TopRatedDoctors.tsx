@@ -18,7 +18,8 @@ const TopRatedDoctors = async () => {
       'http://localhost:3000/api/v1/doctor'
    );
    const { data: doctors } = await res.json();
-   //   console.log(doctors);
+     console.log(doctors);
+
    return (
       <Box
          sx={{

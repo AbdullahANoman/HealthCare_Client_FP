@@ -9,8 +9,6 @@ import {
   Typography,
   IconButton,
   CircularProgress,
-  useTheme,
-  useMediaQuery,
   Box,
   Stepper,
   Step,
@@ -18,6 +16,8 @@ import {
   Paper,
   Divider,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from "react";
 import { Gender } from "@/types/common";
 import { FieldValues } from "react-hook-form";

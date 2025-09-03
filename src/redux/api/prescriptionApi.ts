@@ -1,8 +1,9 @@
+// prescriptionApi.ts
 import { baseApi } from "./baseApi";
 import { tagTypes } from "../tag-types";
 import { IMeta } from "@/types/common";
 
-export const appointmentApi = baseApi.injectEndpoints({
+export const prescriptionApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     createPrescription: build.mutation({
       query: (data) => ({
@@ -13,25 +14,21 @@ export const appointmentApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.prescription],
     }),
     getAllPrescriptions: build.query({
-      query: (arg: Record<string, any>) => {
-        return {
-          url: "/prescription/my-prescription",
-          method: "GET",
-          params: arg,
-        };
-      },
-      transformResponse: (response: [], meta: IMeta) => {
-        return {
-          prescriptions: response,
-          meta,
-        };
-      },
+      query: (arg: Record<string, any>) => ({
+        url: "/prescription/my-prescription",
+        method: "GET",
+        params: arg,
+      }),
+      transformResponse: (response: any, meta: IMeta) => ({
+        prescriptions: response.data || response, // Handle both response structures
+        meta,
+      }),
       providesTags: [tagTypes.prescription],
     }),
   }),
 });
 
 export const {
-    useCreatePrescriptionMutation,
-    useGetAllPrescriptionsQuery
-} = appointmentApi;
+  useCreatePrescriptionMutation,
+  useGetAllPrescriptionsQuery
+} = prescriptionApi;

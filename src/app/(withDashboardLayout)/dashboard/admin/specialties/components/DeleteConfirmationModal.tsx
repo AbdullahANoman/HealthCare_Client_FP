@@ -7,9 +7,9 @@ import {
   Button,
   Typography,
   Box,
-  useTheme,
-  useMediaQuery,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 interface DeleteConfirmationModalProps {

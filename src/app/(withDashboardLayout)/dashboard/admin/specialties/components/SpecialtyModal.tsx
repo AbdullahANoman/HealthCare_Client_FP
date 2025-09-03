@@ -10,11 +10,11 @@ import {
   Typography,
   IconButton,
   CircularProgress,
-  useTheme,
-  useMediaQuery,
   Stack,
   Grid,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import CloseIcon from "@mui/icons-material/Close";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Image from "next/image";

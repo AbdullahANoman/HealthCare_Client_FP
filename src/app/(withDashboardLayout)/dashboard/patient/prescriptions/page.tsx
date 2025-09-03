@@ -7,13 +7,45 @@ import CloseIcon from "@mui/icons-material/Close"
 import PersonIcon from "@mui/icons-material/Person"
 import PhoneIcon from "@mui/icons-material/Phone"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
-import { useGetAllPrescriptionsQuery } from "@/redux/api/prescriptionApi"
+import { useGetAllPrescriptionsQuery } from "@/redux/api/prescriptionApi" // Updated import
+
+// Define types for your prescription data
+interface Doctor {
+  name: string;
+  qualification: string;
+  designation: string;
+  currentWorkingPlace: string;
+  contactNumber: string;
+  address: string;
+}
+
+interface Patient {
+  name: string;
+  email: string;
+  contactNumber: string;
+  address: string;
+}
+
+interface Appointment {
+  paymentStatus: string;
+}
+
+interface Prescription {
+  id: string;
+  doctor: Doctor;
+  patient: Patient;
+  appointment: Appointment;
+  instructions: string;
+  createdAt: string;
+  followUpDate: string;
+}
 
 const PrescriptionPage = () => {
-  const [selectedPrescription, setSelectedPrescription] = useState(null)
+  const [selectedPrescription, setSelectedPrescription] = useState<Prescription | null>(null)
   const { data, isLoading } = useGetAllPrescriptionsQuery({})
 
-  const prescriptions = data?.prescriptions?.data || []
+  // Handle potential undefined data
+  const prescriptions: Prescription[] = data?.prescriptions?.data || data?.prescriptions || []
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -36,10 +68,10 @@ const PrescriptionPage = () => {
         return (
           <Box>
             <Typography variant="body2" fontWeight="medium">
-              {row.doctor.name}
+              {row.doctor?.name || "N/A"}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              {row.doctor.qualification}
+              {row.doctor?.qualification || ""}
             </Typography>
           </Box>
         )
@@ -50,7 +82,7 @@ const PrescriptionPage = () => {
       headerName: "Patient Name",
       flex: 1,
       renderCell: ({ row }) => {
-        return row.patient.name
+        return row.patient?.name || "N/A"
       },
     },
     {
@@ -80,7 +112,7 @@ const PrescriptionPage = () => {
       renderCell: ({ row }) => {
         return (
           <Typography variant="body2" noWrap>
-            {stripHtmlTags(row.instructions)}
+            {stripHtmlTags(row.instructions || "")}
           </Typography>
         )
       },
@@ -92,10 +124,11 @@ const PrescriptionPage = () => {
       headerAlign: "center",
       align: "center",
       renderCell: ({ row }) => {
+        const paymentStatus = row.appointment?.paymentStatus || "UNKNOWN"
         return (
           <Chip
-            label={row.appointment.paymentStatus}
-            color={row.appointment.paymentStatus === "PAID" ? "success" : "error"}
+            label={paymentStatus}
+            color={paymentStatus === "PAID" ? "success" : "error"}
             size="small"
           />
         )
@@ -141,6 +174,7 @@ const PrescriptionPage = () => {
               },
             }}
             disableRowSelectionOnClick
+            getRowId={(row) => row.id || Math.random().toString()} // Ensure unique ID
           />
         </Box>
       </Paper>
@@ -166,24 +200,24 @@ const PrescriptionPage = () => {
                 </Typography>
                 <Box sx={{ pl: 2 }}>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Name:</strong> {selectedPrescription.doctor.name}
+                    <strong>Name:</strong> {selectedPrescription.doctor?.name || "N/A"}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Qualification:</strong> {selectedPrescription.doctor.qualification}
+                    <strong>Qualification:</strong> {selectedPrescription.doctor?.qualification || "N/A"}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Designation:</strong> {selectedPrescription.doctor.designation}
+                    <strong>Designation:</strong> {selectedPrescription.doctor?.designation || "N/A"}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Workplace:</strong> {selectedPrescription.doctor.currentWorkingPlace}
+                    <strong>Workplace:</strong> {selectedPrescription.doctor?.currentWorkingPlace || "N/A"}
                   </Typography>
                   <Typography variant="body2" sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
                     <PhoneIcon fontSize="small" />
-                    {selectedPrescription.doctor.contactNumber}
+                    {selectedPrescription.doctor?.contactNumber || "N/A"}
                   </Typography>
                   <Typography variant="body2" sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <LocationOnIcon fontSize="small" />
-                    {selectedPrescription.doctor.address}
+                    {selectedPrescription.doctor?.address || "N/A"}
                   </Typography>
                 </Box>
               </Box>
@@ -198,18 +232,18 @@ const PrescriptionPage = () => {
                 </Typography>
                 <Box sx={{ pl: 2 }}>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Name:</strong> {selectedPrescription.patient.name}
+                    <strong>Name:</strong> {selectedPrescription.patient?.name || "N/A"}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Email:</strong> {selectedPrescription.patient.email}
+                    <strong>Email:</strong> {selectedPrescription.patient?.email || "N/A"}
                   </Typography>
                   <Typography variant="body2" sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
                     <PhoneIcon fontSize="small" />
-                    {selectedPrescription.patient.contactNumber}
+                    {selectedPrescription.patient?.contactNumber || "N/A"}
                   </Typography>
                   <Typography variant="body2" sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <LocationOnIcon fontSize="small" />
-                    {selectedPrescription.patient.address}
+                    {selectedPrescription.patient?.address || "N/A"}
                   </Typography>
                 </Box>
               </Box>
@@ -224,7 +258,7 @@ const PrescriptionPage = () => {
               Prescription Instructions
             </Typography>
             <Paper sx={{ p: 2, bgcolor: "grey.50" }}>
-              <div dangerouslySetInnerHTML={{ __html: selectedPrescription.instructions }} />
+              <div dangerouslySetInnerHTML={{ __html: selectedPrescription.instructions || "No instructions provided" }} />
             </Paper>
           </Box>
 
@@ -252,8 +286,8 @@ const PrescriptionPage = () => {
               </Typography>
               <Box sx={{ mt: 0.5 }}>
                 <Chip
-                  label={selectedPrescription.appointment.paymentStatus}
-                  color={selectedPrescription.appointment.paymentStatus === "PAID" ? "success" : "error"}
+                  label={selectedPrescription.appointment?.paymentStatus || "UNKNOWN"}
+                  color={selectedPrescription.appointment?.paymentStatus === "PAID" ? "success" : "error"}
                   size="small"
                 />
               </Box>

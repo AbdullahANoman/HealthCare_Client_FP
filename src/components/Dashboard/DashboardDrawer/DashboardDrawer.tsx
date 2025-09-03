@@ -9,14 +9,17 @@ import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
-import { Avatar, Badge, Stack, Paper, Chip, useTheme, alpha, Fade } from "@mui/material"
+
 import AccountMenu from "../AccountMenu/AccountMenu"
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
 import SearchIcon from "@mui/icons-material/Search"
 import { useGetSingleUserQuery } from "@/redux/api/userApi"
 import { motion } from "framer-motion"
 import SideBar from "../SideBar/SideBar"
+import { alpha, Avatar, Badge, Chip, Fade, Paper, Stack } from "@mui/material"
 
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 const drawerWidth = 280
 
 export default function DashboardDrawer({
