@@ -14,10 +14,10 @@ const Doctors = async ({ searchParams }: PropType) => {
 
    if (searchParams.specialties) {
       res = await fetch(
-         `http://localhost:3000/api/v1/doctor?specialties=${searchParams.specialties}`
+         `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/doctor?specialties=${searchParams.specialties}`
       );
    } else {
-      res = await fetch('http://localhost:3000/api/v1/doctor');
+      res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/doctor`);
    }
 
    const { data } = await res.json();
