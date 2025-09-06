@@ -14,7 +14,7 @@ import Link from 'next/link';
 
 const TopRatedDoctors = async () => {
    const res = await fetch(
-      'http://localhost:3000/api/v1/doctor'
+      'https://health-care-server-fp.vercel.app/api/v1/doctor'
    );
    const { data: doctors } = await res.json();
      console.log(doctors);

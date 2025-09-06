@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const Specialist = async () => {
-   const res = await fetch('http://localhost:3000/api/v1/specialties', {
+   const res = await fetch('https://health-care-server-fp.vercel.app/api/v1/specialties', {
       next: {
          revalidate: 30,
       },

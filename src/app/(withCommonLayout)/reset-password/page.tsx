@@ -9,7 +9,7 @@ import PHInput from '@/components/Forms/PHInput';
 import PHForm from '@/components/Forms/PHForm';
 import { useSearchParams } from 'next/navigation';
 import { authApi, useResetPasswordMutation } from '@/redux/api/authApi';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { authKey } from '@/contants/authkey';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
@@ -18,7 +18,8 @@ import { deleteCookies } from '@/services/actions/deleteCookies';
 const validationSchema = z.object({
    newPassword: z.string().min(6, 'Must be at least 6 characters long'),
 });
-const ResetPassword = () => {
+
+const ResetPasswordComponent = () => {
    const searchParams = useSearchParams();
    const id = searchParams.get('id');
    const token = searchParams.get('token');
@@ -51,6 +52,7 @@ const ResetPassword = () => {
          toast.success('Something Went Wrong, Try Again');
       }
    };
+
    return (
       <Box
          sx={{
@@ -101,6 +103,14 @@ const ResetPassword = () => {
             </Button>
          </PHForm>
       </Box>
+   );
+};
+
+const ResetPassword = () => {
+   return (
+      <Suspense fallback={<div>Loading...</div>}>
+         <ResetPasswordComponent />
+      </Suspense>
    );
 };
 

@@ -23,7 +23,7 @@ const InfoBoxStyles = {
 };
 
 const DoctorsProfilePage = async ({ params }: PropTypes) => {
-   const res = await fetch(`http://localhost:3000/api/v1/doctor/${params.id}`);
+   const res = await fetch(`https://health-care-server-fp.vercel.app/api/v1/doctor/${params.id}`);
    const { data: doctor } = await res.json();
 
    const specialties = doctor.doctorSpecialties.map(
